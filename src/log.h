@@ -2,7 +2,7 @@
 #include <memory>
 #include "spdlog/spdlog.h"
 
-class Log
+class log
 {
 public:
     static void init();
@@ -22,3 +22,13 @@ public:
 private:
     static std::shared_ptr<spdlog::logger> _logger;
 };
+
+#define VK_CHECK(x)                                  \
+do {                                                 \
+    VkResult err = x;                                \
+    if (err)                                         \
+    {                                                \
+        log::error("Vulkan error: {}", err);         \
+        abort();                                     \
+    }                                                \
+} while(0)                                           \
