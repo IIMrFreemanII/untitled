@@ -64,6 +64,10 @@ namespace untitled {
 
     void createImageViews();
 
+    void createGraphicsPipeline();
+
+    VkShaderModule createShaderModule(const std::vector<char>& code);
+
     void initVulkan();
 
     void mainLoop();
