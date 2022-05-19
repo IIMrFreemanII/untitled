@@ -12,6 +12,12 @@ const std::vector<const char*> validationLayers = {
 };
 const std::vector<const char*> deviceExtensions = {
   VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+//  "VK_KHR_portability_subset"
+};
+
+// todo: use this for setting vk instance extensions and fix errors
+const std::vector<const char*> instanceExtensions = {
+  "VK_KHR_get_physical_device_properties2",
 };
 
 #ifdef NDEBUG
