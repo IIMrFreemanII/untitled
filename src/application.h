@@ -11,7 +11,7 @@ const std::vector<const char*> validationLayers = {
   "VK_LAYER_KHRONOS_validation"
 };
 const std::vector<const char*> deviceExtensions = {
-  VK_KHR_SWAPCHAIN_EXTENSION_NAME
+  VK_KHR_SWAPCHAIN_EXTENSION_NAME,
 };
 
 #ifdef NDEBUG
@@ -37,18 +37,34 @@ namespace untitled {
     GLFWwindow* _window;
     VkInstance _instance;
     VkPhysicalDevice _physicalDevice = VK_NULL_HANDLE;
-    VkDevice _device;
-    VkQueue _graphicsQueue;
-    VkQueue _presentQueue;
+    VkDevice device;
+    VkQueue graphicsQueue;
+    VkQueue presentQueue;
     VkSurfaceKHR _surface;
-    VkSwapchainKHR _swapChain;
+    VkSwapchainKHR swapChain;
     std::vector<VkImage> _swapChainImages;
     VkFormat _swapChainImageFormat;
     VkExtent2D _swapChainExtent;
     std::vector<VkImageView> _swapChainImageViews;
+    VkRenderPass _renderPass;
+    VkPipelineLayout _pipelineLayout;
+    VkPipeline _graphicsPipeline;
+    std::vector<VkFramebuffer> _swapChainFrameBuffers;
+    VkCommandPool _commandPool;
+    VkCommandBuffer commandBuffer;
+
+    VkSemaphore imageAvailableSemaphore;
+    VkSemaphore renderFinishedSemaphore;
+    VkFence inFlightFence;
 
   private:
     void initWindow();
+
+    void initVulkan();
+
+    void mainLoop();
+
+    void cleanup();
 
     void createInstance();
 
@@ -68,11 +84,18 @@ namespace untitled {
 
     VkShaderModule createShaderModule(const std::vector<char>& code);
 
-    void initVulkan();
+    void createRenderPass();
 
-    void mainLoop();
+    void createFrameBuffers();
 
-    void cleanup();
+    void createCommandPool();
 
+    void createCommandBuffer();
+
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+
+    void drawFrame();
+
+    void createSyncObjects();
   };
 }
