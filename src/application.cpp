@@ -287,6 +287,13 @@ void untitled::Application::pickPhysicalDevice() {
   std::vector<VkPhysicalDevice> devices(deviceCount);
   vkEnumeratePhysicalDevices(_instance, &deviceCount, devices.data());
 
+  log::info("vkEnumeratePhysicalDevices {}", deviceCount);
+  for (auto device: devices) {
+    VkPhysicalDeviceProperties temp;
+    vkGetPhysicalDeviceProperties(device, &temp);
+    log::info(" - {}:", temp.deviceName);
+  }
+
   for (const auto &device: devices) {
     if (isDeviceSuitable(device, _surface)) {
       _physicalDevice = device;
