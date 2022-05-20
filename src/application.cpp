@@ -113,15 +113,17 @@ void untitled::Application::createInstance() {
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
   log::info("glfwGetRequiredInstanceExtensions {}", glfwExtensionCount);
-  for (int i = 0; i < sizeof(glfwExtensions); ++i) {
-    log::info("- {}", (*glfwExtensions) + i);
+  for (int i = 0; i < glfwExtensionCount; ++i) {
+    const char* extensionName = *(glfwExtensions + i);
+    instanceExtensions.push_back(extensionName);
+    log::info("- {}", extensionName);
   }
 
   VkInstanceCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
-  createInfo.enabledExtensionCount = glfwExtensionCount;
-  createInfo.ppEnabledExtensionNames = glfwExtensions;
+  createInfo.enabledExtensionCount = instanceExtensions.size();
+  createInfo.ppEnabledExtensionNames = instanceExtensions.data();
   if (enableValidationLayers) {
     createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
     createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -632,7 +634,7 @@ void untitled::Application::createRenderPass() {
   dependency.dstSubpass = 0;
   dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
   dependency.srcAccessMask = 0;
-//  dependency.dstStageMask = 0;
+//  dependency.dstStageMask = 0; // todo: figure out how to fix
 
   VkRenderPassCreateInfo renderPassInfo{};
   renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
