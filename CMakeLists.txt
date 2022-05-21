@@ -8,7 +8,7 @@ set(SOURCE_FILES
     src/log.cpp
     src/log.h
     src/application.cpp
-    src/application.h)
+    src/application.h src/vertex.h)
 
 # Vendors
 set(VENDOR_DIR vendor)

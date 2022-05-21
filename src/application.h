@@ -6,6 +6,7 @@
 
 #include "GLFW/glfw3.h"
 #include "vulkan/vulkan.h"
+#include "vertex.h"
 
 const std::vector<const char*> validationLayers = {
   "VK_LAYER_KHRONOS_validation"
@@ -17,6 +18,17 @@ const std::vector<const char*> deviceExtensions = {
 
 static std::vector<const char*> instanceExtensions = {
   "VK_KHR_get_physical_device_properties2",
+};
+
+const std::vector<untitled::Vertex> vertices = {
+  {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+  {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+  {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+  {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+};
+
+const std::vector<uint16_t> indices = {
+  0, 1, 2, 2, 3, 0
 };
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
@@ -65,6 +77,11 @@ namespace untitled {
     std::vector<VkSemaphore> renderFinishedSemaphores;
     std::vector<VkFence> inFlightFences;
 
+    VkBuffer vertexBuffer;
+    VkDeviceMemory vertexBufferMemory;
+    VkBuffer indexBuffer;
+    VkDeviceMemory indexBufferMemory;
+
     uint32_t currentFrame = 0;
 
   private:
@@ -92,7 +109,7 @@ namespace untitled {
 
     void createGraphicsPipeline();
 
-    VkShaderModule createShaderModule(const std::vector<char>& code);
+    VkShaderModule createShaderModule(const std::vector<char> &code);
 
     void createRenderPass();
 
@@ -111,5 +128,21 @@ namespace untitled {
     void recreateSwapChain();
 
     void cleanupSwapChain();
+
+    void createVertexBuffer();
+
+    void createIndexBuffer();
+
+    void createBuffer(
+      VkDeviceSize size,
+      VkBufferUsageFlags usage,
+      VkMemoryPropertyFlags properties,
+      VkBuffer &buffer,
+      VkDeviceMemory &bufferMemory
+    );
+
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+    void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
   };
 }
