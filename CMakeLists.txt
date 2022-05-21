@@ -17,6 +17,10 @@ set(VENDOR_DIR vendor)
 set(SPDLOG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_DIR}/spdlog/include)
 ##
 
+##glm header only
+set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${VENDOR_DIR}/glm)
+##
+
 ##glfw
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -43,9 +47,15 @@ set(VULKAN_LIB libvulkan.1.dylib libvulkan.1.3.211.dylib)
 set(INCLUDE_DIR
     ${SPDLOG_INCLUDE_DIR}
     ${GLFW_INCLUDE_DIR}
-    ${VULKAN_INCLUDE_DIR})
-set(LIB_DIR ${VULKAN_LIB_DIR})
-set(LIB ${GLFW_LIB} ${VULKAN_LIB})
+    ${VULKAN_INCLUDE_DIR}
+    ${GLM_INCLUDE_DIR})
+
+set(LIB_DIR
+    ${VULKAN_LIB_DIR})
+
+set(LIB
+    ${GLFW_LIB}
+    ${VULKAN_LIB})
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR})
