@@ -19,6 +19,8 @@ static std::vector<const char*> instanceExtensions = {
   "VK_KHR_get_physical_device_properties2",
 };
 
+const int MAX_FRAMES_IN_FLIGHT = 2;
+
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
 #else
@@ -39,23 +41,23 @@ namespace untitled {
     void close();
 
   private:
-    GLFWwindow* _window;
-    VkInstance _instance;
-    VkPhysicalDevice _physicalDevice = VK_NULL_HANDLE;
+    GLFWwindow* window;
+    VkInstance instance;
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
     VkDevice device;
     VkQueue graphicsQueue;
     VkQueue presentQueue;
-    VkSurfaceKHR _surface;
+    VkSurfaceKHR surface;
     VkSwapchainKHR swapChain;
-    std::vector<VkImage> _swapChainImages;
-    VkFormat _swapChainImageFormat;
-    VkExtent2D _swapChainExtent;
-    std::vector<VkImageView> _swapChainImageViews;
-    VkRenderPass _renderPass;
-    VkPipelineLayout _pipelineLayout;
-    VkPipeline _graphicsPipeline;
-    std::vector<VkFramebuffer> _swapChainFrameBuffers;
-    VkCommandPool _commandPool;
+    std::vector<VkImage> swapChainImages;
+    VkFormat swapChainImageFormat;
+    VkExtent2D swapChainExtent;
+    std::vector<VkImageView> swapChainImageViews;
+    VkRenderPass renderPass;
+    VkPipelineLayout pipelineLayout;
+    VkPipeline graphicsPipeline;
+    std::vector<VkFramebuffer> swapChainFrameBuffers;
+    VkCommandPool commandPool;
     VkCommandBuffer commandBuffer;
 
     VkSemaphore imageAvailableSemaphore;
