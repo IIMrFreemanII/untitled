@@ -32,6 +32,7 @@ namespace untitled {
   public:
     int width = 800;
     int height = 600;
+    bool framebufferResized = false;
 
   public:
     Application();
@@ -58,11 +59,13 @@ namespace untitled {
     VkPipeline graphicsPipeline;
     std::vector<VkFramebuffer> swapChainFrameBuffers;
     VkCommandPool commandPool;
-    VkCommandBuffer commandBuffer;
+    std::vector<VkCommandBuffer> commandBuffers;
 
-    VkSemaphore imageAvailableSemaphore;
-    VkSemaphore renderFinishedSemaphore;
-    VkFence inFlightFence;
+    std::vector<VkSemaphore> imageAvailableSemaphores;
+    std::vector<VkSemaphore> renderFinishedSemaphores;
+    std::vector<VkFence> inFlightFences;
+
+    uint32_t currentFrame = 0;
 
   private:
     void initWindow();
@@ -97,12 +100,16 @@ namespace untitled {
 
     void createCommandPool();
 
-    void createCommandBuffer();
+    void createCommandBuffers();
 
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
     void drawFrame();
 
     void createSyncObjects();
+
+    void recreateSwapChain();
+
+    void cleanupSwapChain();
   };
 }
