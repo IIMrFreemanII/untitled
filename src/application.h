@@ -67,6 +67,7 @@ namespace untitled {
     VkExtent2D swapChainExtent;
     std::vector<VkImageView> swapChainImageViews;
     VkRenderPass renderPass;
+    VkDescriptorSetLayout descriptorSetLayout;
     VkPipelineLayout pipelineLayout;
     VkPipeline graphicsPipeline;
     std::vector<VkFramebuffer> swapChainFrameBuffers;
@@ -81,6 +82,9 @@ namespace untitled {
     VkDeviceMemory vertexBufferMemory;
     VkBuffer indexBuffer;
     VkDeviceMemory indexBufferMemory;
+
+    std::vector<VkBuffer> uniformBuffers;
+    std::vector<VkDeviceMemory> uniformBuffersMemory;
 
     uint32_t currentFrame = 0;
 
@@ -107,6 +111,8 @@ namespace untitled {
 
     void createImageViews();
 
+    void createDescriptorSetLayout();
+
     void createGraphicsPipeline();
 
     VkShaderModule createShaderModule(const std::vector<char> &code);
@@ -132,6 +138,10 @@ namespace untitled {
     void createVertexBuffer();
 
     void createIndexBuffer();
+
+    void createUniformBuffers();
+
+    void updateUniformBuffer(uint32_t currentImage);
 
     void createBuffer(
       VkDeviceSize size,
